@@ -33,7 +33,7 @@ TrueVault is A secure, scalable API service in Python to validate and extract in
   - Encrypt data in transit
   - Protect sensitive data from interception
 - In production:
-  - Consider encrypting data at rest using strong encryption (e.g., AES-256)
+  - Consider encrypting data at rest using strong encryption (e.g., SHA-256)
 
 ## 🆔 Validate & Extract Information from Egyptian National ID
 - Follow the official Egyptian National ID structure
