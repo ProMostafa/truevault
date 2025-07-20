@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "corsheaders",
+    "drf_yasg",
     # APPs
     "ekyc",
     "accounts",
@@ -69,16 +70,16 @@ MIDDLEWARE = [
 ROOT_URLCONF = "configuration.urls"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "accounts.authentication.APIKeyAuthentication",
-    ],
+    # "DEFAULT_AUTHENTICATION_CLASSES": [
+    #     "accounts.authentication.APIKeyAuthentication",
+    # ],
     'DEFAULT_THROTTLE_CLASSES': [
         "rest_framework.throttling.AnonRateThrottle",
         "accounts.throttling.FreeAPIKeyThrottle",
         "accounts.throttling.PremiumAPIKeyThrottle",
     ],
     "DEFAULT_THROTTLE_RATES": {
-        "anon": '1/minute',          # Anonymous users: 10 requests/day
+        "anon": '5/minute',          # Anonymous users: 10 requests/day
         "free_api_key": '5/minute',  # Free API keys: 50 requests/day
         "premium_api_key": '100/minute',  # Premium API keys: 1000 requests/day
     },
@@ -111,7 +112,7 @@ WSGI_APPLICATION = "configuration.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB", default="db"),
+        "NAME": os.environ.get("DB", default="postgres"),
         "USER": os.environ.get("DB_USER", default="user"),
         "PASSWORD": os.environ.get("DB_PASSWORD", default="password"),
         "HOST": os.environ.get("DB_HOST", default="127.0.0.1"),
