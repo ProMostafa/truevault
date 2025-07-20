@@ -1,0 +1,74 @@
+version: '3.7'
+services:
+  django:
+    build: .
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "
+      ./manage.py migrate &&
+      ./manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/trueidvault
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - celery
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6378:6378"
+    networks:
+      - app-network
+
+  celery:
+    build: .
+    volumes:
+      - .:/trueidvault
+    command: celery -A configuration worker --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  celery_monitoring:
+    build: .
+    ports:
+      - "5555:5555"
+    command: celery -A configuration flower
+    volumes:
+      - .:/trueidvault
+    env_file:
+      - .env
+    depends_on:
+      - celery
+    networks:
+      - app-network
+
+  db:
+    image: postgres:17.5
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    expose:
+      - "5432"
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

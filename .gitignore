@@ -1,0 +1,8 @@
+
+*__pycache__/*
+.pytest_cache
+.pytest_cache/*
+.vscode
+.vscode/*
+.candidates/*__pycache__*
+celery_task.log
