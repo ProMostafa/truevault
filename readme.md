@@ -126,3 +126,6 @@ TrueVault is A secure, scalable API service in Python to validate and extract in
 - Implemented using:
   - Django REST Framework’s throttling system
   - Custom throttle classes or third-party packages (e.g., django-ratelimit)
+
+
+### Go to [Installation Guide ](https://github.com/ProMostafa/truevault/blob/master/installation_guide.md)
